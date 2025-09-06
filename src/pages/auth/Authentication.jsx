@@ -9,7 +9,7 @@ function Authentication() {
       <div className="min-w-md bg-white shadow-lg rounded-lg p-3">
         {/* ----- Logo ----- */}
         <div className="flex items-center justify-center text-3xl font-semibold mb-3.5">
-          <img src="/Favicon.svg" alt="IMG" />
+          <img src="/Favicon.svg" alt="IMG" className="w-9 h-9" />
           iggleTalk
         </div>
         {/* ----- NavTabs ----- */}

@@ -4,18 +4,15 @@ import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  // FormSubmit
+  // ----- Form Submit -----
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -24,7 +21,7 @@ function Login() {
 
     // ----- Basic Validation -----
     if (!formData.email || !formData.password) {
-      setMessage("All Fields are required");
+      setMessage("All fields are required");
       setMessageType("error");
       setLoading(false);
       return;
@@ -32,15 +29,12 @@ function Login() {
 
     // ----- API Simulation -----
     setTimeout(() => {
-      setMessage("User Logined Successfully");
+      setMessage("User logged in successfully");
       setMessageType("success");
       console.log("FormData: ", formData);
-      setFormData({
-        fullName: "",
-        email: "",
-        password: "",
-      });
-      setConfirmPassword("");
+
+      // reset form
+      setFormData({ email: "", password: "" });
       setLoading(false);
     }, 3000);
   };
@@ -48,23 +42,27 @@ function Login() {
   // ----- Input Handler -----
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
+
   return (
     <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
-      {messageType === "success" && (
-        <div className="bg-green-50 text-center p-3 text-lg text-green-600 font-medium rounded-md">
+      {/* ----- Alerts ----- */}
+      {message && (
+        <div
+          className={`text-center p-3 text-lg font-medium rounded-md ${
+            messageType === "success"
+              ? "bg-green-50 text-green-600"
+              : "bg-red-50 text-red-600"
+          }`}
+        >
           {message}
         </div>
       )}
-      {messageType === "error" && (
-        <div className="bg-red-50 text-center p-3 text-lg text-red-600 font-medium rounded-md">
-          {message}
-        </div>
-      )}
+
       {/* ----- Email ----- */}
       <div>
         <label
@@ -83,6 +81,7 @@ function Login() {
           onChange={handleInputChange}
         />
       </div>
+
       {/* ----- Password ----- */}
       <div className="relative">
         <label
@@ -102,15 +101,18 @@ function Login() {
         />
         <button
           type="button"
-          onClick={() => setShowPassword(!showPassword)}
+          onClick={() => setShowPassword((prev) => !prev)}
           className="absolute top-[40px] right-3 text-xl hover:text-gray-600 transition-colors"
         >
           {showPassword ? <LuEyeClosed /> : <LuEye />}
         </button>
       </div>
+
+      {/* ----- Forget Password ----- */}
       <div className="text-end hover:underline">
-        <Link to={"/forget-otp"}>Forget Password</Link>
+        <Link to="/forget-otp">Forget Password?</Link>
       </div>
+
       {/* ----- Submit Button ----- */}
       <button
         type="submit"

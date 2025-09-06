@@ -9,35 +9,49 @@ function Signup() {
     email: "",
     password: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-  // FormSubmit
+
+  // ----- Input Handler -----
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // ----- Form Submit -----
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
     setMessageType("");
 
+    const { fullName, email, password } = formData;
+
     // ----- Basic Validation -----
-    if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.password ||
-      !confirmPassword
-    ) {
-      setMessage("All Fields are required");
+    if (!fullName || !email || !password || !confirmPassword) {
+      setMessage("All fields are required");
       setMessageType("error");
       setLoading(false);
       return;
     }
 
-    if (formData.password !== confirmPassword) {
-      setMessage("Password does not match");
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+      setMessageType("error");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters long");
       setMessageType("error");
       setLoading(false);
       return;
@@ -45,45 +59,34 @@ function Signup() {
 
     // ----- API Simulation -----
     setTimeout(() => {
-      setMessage("User Registered Successfully");
-      setMessageType("success");
-      console.log("FormData: ", formData);
-      setFormData({
-        fullName: "",
-        email: "",
-        password: "",
-      });
+      console.log("Form Data:", formData);
+
+      // Reset form
+      setFormData({ fullName: "", email: "", password: "" });
       setConfirmPassword("");
       setLoading(false);
-    }, 3000);
-    
-    // ----- Navigation -----
-    setTimeout(() => {
+
+      // Navigate
       navigate("/account-otp");
-    }, 4500);
+    }, 3000);
   };
 
-  // ----- Input Handler -----
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
   return (
     <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
-      {messageType === "success" && (
-        <div className="bg-green-50 text-center p-3 text-lg text-green-600 font-medium rounded-md">
+      {/* ----- Message ----- */}
+      {message && (
+        <div
+          className={`p-3 text-center text-lg font-medium rounded-md ${
+            messageType === "error"
+              ? "bg-red-50 text-red-600"
+              : "bg-green-50 text-green-600"
+          }`}
+        >
           {message}
         </div>
       )}
-      {messageType === "error" && (
-        <div className="bg-red-50 text-center p-3 text-lg text-red-600 font-medium rounded-md">
-          {message}
-        </div>
-      )}
-      {/* ----- fullName ----- */}
+
+      {/* ----- Full Name ----- */}
       <div>
         <label
           className="text-sm font-medium mb-1 text-gray-500"
@@ -101,6 +104,7 @@ function Signup() {
           onChange={handleInputChange}
         />
       </div>
+
       {/* ----- Email ----- */}
       <div>
         <label
@@ -119,6 +123,7 @@ function Signup() {
           onChange={handleInputChange}
         />
       </div>
+
       {/* ----- Password ----- */}
       <div className="relative">
         <label
@@ -144,6 +149,7 @@ function Signup() {
           {showPassword ? <LuEyeClosed /> : <LuEye />}
         </button>
       </div>
+
       {/* ----- Confirm Password ----- */}
       <div className="relative">
         <label
@@ -169,6 +175,7 @@ function Signup() {
           {showConfirmPassword ? <LuEyeClosed /> : <LuEye />}
         </button>
       </div>
+
       {/* ----- Submit Button ----- */}
       <button
         type="submit"
