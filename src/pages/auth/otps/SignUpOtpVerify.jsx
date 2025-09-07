@@ -32,7 +32,7 @@ function SignUpOtpVerify() {
     localStorage.removeItem("otp");
 
     setTimeout(() => {
-      navigate("/"); // redirect after verification
+      navigate("/main/");
     }, 2000);
   };
 

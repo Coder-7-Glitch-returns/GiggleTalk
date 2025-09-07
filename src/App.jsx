@@ -2,13 +2,17 @@ import react from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-// Authentication
+// ----- Authentication -----
 import Authentication from "./pages/auth/Authentication";
 import SignUpOtpSend from "./pages/auth/otps/SignUpOtpSend";
 import SignUpOtpVerify from "./pages/auth/otps/SignUpOtpVerify";
 import ForgetPassword from "./pages/auth/ForgetPassword";
 import ForgetPasswordOtpSend from "./pages/auth/otps/ForgetPasswordOtpSend";
 import ForgetPasswordOtpVerify from "./pages/auth/otps/ForgetPasswordOtpVerify";
+
+// ----- UserLayout -----
+import UserLayout from "./layouts/UserLayout";
+import ChatWindow from "./components/main/Chat/ChatWindow";
 
 function App() {
   const routes = createBrowserRouter([
@@ -35,6 +39,16 @@ function App() {
     {
       path: "/reset-password",
       element: <ForgetPassword />,
+    },
+    {
+      path: "/main",
+      element: <UserLayout />,
+      children: [
+        {
+          path: ":id",
+          element: <ChatWindow />,
+        },
+      ],
     },
   ]);
   return <RouterProvider router={routes} />;
