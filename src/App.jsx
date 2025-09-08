@@ -18,7 +18,6 @@ import FriendProfile from "./pages/Chat/FriendProfile";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminSettings from "./pages/admin/AdminSettings";
 
 function App() {
   const routes = createBrowserRouter([
@@ -75,10 +74,6 @@ function App() {
         {
           path: "users",
           element: <AdminUsers />,
-        },
-        {
-          path: "settings",
-          element: <AdminSettings />,
         },
       ],
     },
