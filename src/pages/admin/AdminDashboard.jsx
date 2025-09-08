@@ -46,7 +46,7 @@ function AdminDashboard() {
   ]);
 
   const [selectedUser, setSelectedUser] = useState(null);
-  const [popupType, setPopupType] = useState(null); // edit | block | delete
+  const [popupType, setPopupType] = useState(null);
 
   // ----- Handle Update -----
   const handleUpdateUser = (e) => {
