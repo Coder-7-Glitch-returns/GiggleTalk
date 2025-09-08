@@ -12,7 +12,9 @@ import ForgetPasswordOtpVerify from "./pages/auth/otps/ForgetPasswordOtpVerify";
 
 // ----- UserLayout -----
 import UserLayout from "./layouts/UserLayout";
-import ChatWindow from "./components/main/Chat/ChatWindow";
+import ChatWindow from "./pages/Chat/ChatWindow";
+import UserProfile from "./pages/Chat/UserProfile";
+import FriendProfile from "./pages/Chat/FriendProfile";
 
 function App() {
   const routes = createBrowserRouter([
@@ -49,6 +51,14 @@ function App() {
           element: <ChatWindow />,
         },
       ],
+    },
+    {
+      path: "/profile/",
+      element: <UserProfile />,
+    },
+    {
+      path: "/friend-profile/:id",
+      element: <FriendProfile />,
     },
   ]);
   return <RouterProvider router={routes} />;

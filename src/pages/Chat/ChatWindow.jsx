@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import UserHeader from "./../header/UserHeader";
+import UserHeader from "../../components/main/header/UserHeader";
 
 const mockUsers = [
   {
@@ -61,10 +61,10 @@ function ChatWindow() {
             }`}
           >
             <div
-              className={`max-w-xs px-4 py-2 rounded-2xl text-sm shadow-sm ${
+              className={`w-64 px-4 py-2 rounded-md text-sm shadow-sm break-words ${
                 msg.sender === "me"
-                  ? "bg-slate-800 text-white rounded-br-none"
-                  : "bg-white border border-slate-200 text-slate-700 rounded-bl-none"
+                  ? "bg-slate-800 text-white"
+                  : "bg-white border border-slate-200 text-slate-700"
               }`}
             >
               {msg.text}

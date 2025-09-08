@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 function UserHeader({ user }) {
   if (!user) return null;
+  const { id } = user;
+  const [isDropdown, setIsDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 shadow-md bg-white h-[80px]">
@@ -26,10 +45,34 @@ function UserHeader({ user }) {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-slate-500">
-        <button className="hover:text-slate-700 transition font-black">
-          ⋮
+
+      {/* Right side: dropdown */}
+      <div className="flex items-center gap-2 relative" ref={dropdownRef}>
+        <button
+          className="hover:text-slate-700 transition-colors text-xl text-slate-500"
+          onClick={() => setIsDropdown((prev) => !prev)}
+        >
+          <BsThreeDotsVertical />
         </button>
+
+        {isDropdown && (
+          <div className="absolute top-[48px] right-2 w-56 bg-white shadow-lg rounded-xl z-20 p-2 border border-slate-200">
+            <ul className="flex flex-col gap-2">
+              <Link to={`/profile/${id}`}>
+                <li className="flex items-center gap-3 text-base font-medium text-slate-600 hover:text-slate-800 transition-colors hover:bg-slate-100 px-4 py-2 rounded-lg cursor-pointer">
+                  <FaUserCircle className="text-xl text-slate-500" />
+                  <span>Profile</span>
+                </li>
+              </Link>
+              <Link>
+                <li className="flex items-center gap-3 text-base font-medium text-slate-600 hover:text-slate-800 transition-colors hover:bg-slate-100 px-4 py-2 rounded-lg cursor-pointer">
+                  <FaRegTrashCan className="text-xl text-slate-500" />
+                  <span>Delete</span>
+                </li>
+              </Link>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

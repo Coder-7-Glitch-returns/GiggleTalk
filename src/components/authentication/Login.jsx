@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+  const navigate = useNavigate();
 
   // ----- Form Submit -----
   const handleSubmit = (e) => {
@@ -32,10 +33,13 @@ function Login() {
       setMessage("User logged in successfully");
       setMessageType("success");
       console.log("FormData: ", formData);
-
-      // reset form
+      const userId = 1;
+      localStorage.setItem("userId", userId);
       setFormData({ email: "", password: "" });
+      setMessage("");
+      setMessageType("");
       setLoading(false);
+      navigate("/main/");
     }, 3000);
   };
 
