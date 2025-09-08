@@ -117,7 +117,9 @@ function FriendsComponent() {
                 </NavLink>
               ))
             ) : (
-              <p className="text-slate-500 text-sm px-3 text-center">No friends found</p>
+              <p className="text-slate-500 text-sm px-3 text-center">
+                No friends found
+              </p>
             )}
           </ul>
         </nav>
